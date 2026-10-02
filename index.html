@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wedding Weekend RSVP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sky:#EEF4FA; --ink:#23304A; --pink:#F28DA6; --sun:#F6C945; --sage:#9CC5A1; --white:#fff;
+    --hand:'Gaegu','Comic Sans MS',cursive; --body:'Nunito',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--sky);color:var(--ink);font:400 17px/1.6 var(--body)}
+  main{max-width:640px;margin:0 auto;padding:48px 20px 80px}
+  h1,h2{font-family:var(--hand);font-weight:700;line-height:1.05;margin:0}
+  h1{font-size:clamp(48px,11vw,76px);text-align:center}
+  .sub{text-align:center;margin:12px auto 40px;max-width:420px}
+  .hero{display:flex;justify-content:center;margin-bottom:8px}
+  .field{display:block;margin-bottom:20px}
+  .field>span{display:block;font-weight:700;margin-bottom:4px}
+  input[type=text],input[type=email]{width:100%;padding:12px 14px;border:2px solid var(--ink);border-radius:14px;background:var(--white);font:inherit;color:inherit}
+  input:focus-visible,button:focus-visible,label:focus-within{outline:3px solid var(--pink);outline-offset:2px}
+  .event{background:var(--white);border:2px solid var(--ink);border-radius:26px 18px 28px 20px;padding:24px;margin:32px 0;position:relative}
+  .event h2{font-size:32px;margin:6px 0 2px}
+  .day{font-family:var(--hand);font-size:22px;color:var(--pink);font-weight:700}
+  .event svg.doodle{position:absolute;top:14px;right:16px;width:64px;height:64px}
+  .choices{display:flex;gap:10px;margin:16px 0}
+  .choices label{flex:1;text-align:center;border:2px solid var(--ink);border-radius:999px;padding:8px 10px;cursor:pointer;font-weight:600;transition:background .15s}
+  .choices input{position:absolute;opacity:0;pointer-events:none}
+  .choices label:has(input:checked){background:var(--sun)}
+  .choices label.no:has(input:checked){background:var(--sage)}
+  .names{display:none}
+  .event.yes .names{display:block}
+  .names p{margin:0 0 8px;font-size:15px}
+  .count{display:flex;align-items:center;gap:12px;margin-bottom:14px;font-weight:700}
+  .count input{width:80px;padding:10px 12px;border:2px solid var(--ink);border-radius:14px;background:var(--white);font:inherit;color:inherit;text-align:center}
+  .row{display:flex;gap:8px;margin-bottom:8px}
+  .row button{flex:none;width:44px;border:2px solid var(--ink);border-radius:14px;background:var(--white);font-size:20px;cursor:pointer}
+  .add{background:none;border:2px dashed var(--ink);border-radius:999px;padding:6px 16px;font:600 15px var(--body);color:inherit;cursor:pointer}
+  .add:hover{background:var(--sky)}
+  .go{display:block;width:100%;margin-top:8px;padding:16px;border:2px solid var(--ink);border-radius:999px;background:var(--pink);color:var(--ink);font:700 30px var(--hand);cursor:pointer;box-shadow:0 5px 0 var(--ink);transition:transform .1s,box-shadow .1s}
+  .go:active{transform:translateY(4px);box-shadow:0 1px 0 var(--ink)}
+  .go:disabled{opacity:.6;cursor:wait}
+  #msg{text-align:center;margin-top:20px;font-weight:600;min-height:1.6em}
+  #msg.err{color:#B3263E}
+  #thanks{display:none;text-align:center;padding:40px 0}
+  #thanks h2{font-size:56px;margin-bottom:8px}
+  @media (prefers-reduced-motion:no-preference){
+    .bob{animation:bob 4s ease-in-out infinite}
+    @keyframes bob{50%{transform:translateY(-8px) rotate(3deg)}}
+  }
+  @media (max-width:420px){.event svg.doodle{width:48px;height:48px}}
+</style>
+</head>
+<body>
+<main>
+  <div id="formView">
+    <div class="hero bob" aria-hidden="true">
+      <svg width="120" height="90" viewBox="0 0 120 90" fill="none" stroke="#23304A" stroke-width="3" stroke-linecap="round">
+        <path d="M60 45L14 20v50z" fill="#F28DA6" fill-opacity=".85" stroke-linejoin="round"/>
+        <path d="M60 45l46-25v50z" fill="#F6C945" stroke-linejoin="round"/>
+        <rect x="50" y="33" width="20" height="24" rx="6" fill="#fff"/>
+      </svg>
+    </div>
+    <!-- EDIT: replace the title below with your names, e.g. "Kunaal & Alex" -->
+    <h1>We're getting married!</h1>
+    <p class="sub">Three little events, one big weekend. Tell us who's coming to each one.</p>
+
+    <form id="rsvp" novalidate>
+      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true">
+
+      <label class="field"><span>Your name</span>
+        <input type="text" id="contact" required autocomplete="name"></label>
+
+      <section class="event" data-key="Saturday - Bows before Vows: Pre-Wedding Yoga">
+        <svg class="doodle" viewBox="0 0 64 64" fill="none" stroke="#23304A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M32 54C20 54 12 46 10 34c8 0 15 4 22 14 7-10 14-14 22-14-2 12-10 20-22 20z" fill="#F28DA6" fill-opacity=".7"/>
+          <path d="M32 50C24 42 24 26 32 12c8 14 8 30 0 38z" fill="#F6C945"/>
+        </svg>
+        <div class="day">Saturday</div>
+        <h2>Bows before Vows</h2>
+        <div>Pre-Wedding Yoga</div>
+      </section>
+
+      <section class="event" data-key="Sunday - The BIG Day: Oui do!">
+        <svg class="doodle" viewBox="0 0 64 64" fill="none" stroke="#23304A" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+          <rect x="8" y="44" width="48" height="12" rx="3" fill="#F28DA6" fill-opacity=".8"/>
+          <rect x="16" y="32" width="32" height="12" rx="3" fill="#F6C945" fill-opacity=".8"/>
+          <rect x="24" y="21" width="16" height="11" rx="3" fill="#9CC5A1" fill-opacity=".8"/>
+          <path d="M32 21v-6"/><path d="M32 6c4 3 4 6 0 8-4-2-4-5 0-8z" fill="#F6C945"/>
+        </svg>
+        <div class="day">Sunday</div>
+        <h2>The BIG Day</h2>
+        <div>Oui do!</div>
+      </section>
+
+      <section class="event" data-key="Monday - Donut Leave! Donuts & Coffee at Our House">
+        <svg class="doodle" viewBox="0 0 64 64" fill="none" stroke="#23304A" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+          <circle cx="32" cy="32" r="22" fill="#F28DA6" fill-opacity=".8"/><circle cx="32" cy="32" r="7" fill="#EEF4FA"/>
+          <path d="M18 24l4 2M44 20l-3 4M46 40l-4-2M22 46l3-4M32 12v4" stroke="#F6C945" stroke-width="3.5"/>
+        </svg>
+        <div class="day">Monday</div>
+        <h2>Donut Leave!</h2>
+        <div>Donuts &amp; Coffee at Our House</div>
+      </section>
+
+      <button class="go" id="send" type="submit">Send our RSVP</button>
+      <div id="msg" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+
+  <div id="thanks">
+    <div class="hero bob" aria-hidden="true">
+      <svg width="110" height="110" viewBox="0 0 64 64" fill="none" stroke="#23304A" stroke-width="2.5" stroke-linecap="round"><circle cx="32" cy="32" r="22" fill="#F28DA6" fill-opacity=".8"/><circle cx="32" cy="32" r="7" fill="#EEF4FA"/><path d="M18 24l4 2M44 20l-3 4M46 40l-4-2M22 46l3-4M32 12v4" stroke="#F6C945" stroke-width="3.5"/></svg>
+    </div>
+    <h2>Thank you!</h2>
+    <p>Your RSVP is in. We can't wait to celebrate with you.</p>
+  </div>
+</main>
+
+<script>
+  // ====== SETUP: paste your Formspree form URL here (https://formspree.io/f/xxxxxxx) ======
+  const FORMSPREE_URL = "https://formspree.io/f/maenzgqq";
+  // ===================================================================================
+
+  const form = document.getElementById('rsvp');
+  const msg = document.getElementById('msg');
+
+  // Build the attending / not attending controls for each event
+  document.querySelectorAll('.event').forEach((ev, i) => {
+    const group = 'ev' + i;
+    ev.insertAdjacentHTML('beforeend', `
+      <div class="choices" role="radiogroup" aria-label="Attending ${ev.dataset.key}">
+        <label><input type="radio" name="${group}" value="yes" required> Joyfully attending</label>
+        <label class="no"><input type="radio" name="${group}" value="no"> Can't make it</label>
+      </div>
+      <div class="names">
+        <label class="count">Number of guests
+          <input type="number" class="num" min="1" max="20" value="1" inputmode="numeric"></label>
+        <p>Add one name per guest (including you).</p>
+        <div class="list"></div>
+        <button type="button" class="add">+ Add a guest</button>
+      </div>`);
+    const list = ev.querySelector('.list');
+    const num = ev.querySelector('.num');
+    const syncCount = () => { num.value = list.children.length; };
+    const addRow = (removable) => {
+      const row = document.createElement('div');
+      row.className = 'row';
+      row.innerHTML = `<input type="text" placeholder="Guest full name" aria-label="Guest name" autocomplete="off">` +
+        (removable ? `<button type="button" aria-label="Remove guest">×</button>` : '');
+      if (removable) row.querySelector('button').onclick = () => { row.remove(); syncCount(); };
+      list.appendChild(row);
+      syncCount();
+      return row;
+    };
+    addRow(false);
+    ev.querySelector('.add').onclick = () => addRow(true).querySelector('input').focus();
+    // Changing the count adds or removes name boxes to match
+    num.onchange = () => {
+      const n = Math.min(20, Math.max(1, parseInt(num.value, 10) || 1));
+      while (list.children.length < n) addRow(true);
+      while (list.children.length > n) list.lastElementChild.remove();
+      syncCount();
+    };
+    ev.querySelectorAll('input[type=radio]').forEach(r => r.onchange = () =>
+      ev.classList.toggle('yes', ev.querySelector('input[value=yes]').checked));
+  });
+
+  function showError(text, el) { msg.className = 'err'; msg.textContent = text; if (el) el.focus(); }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    msg.className = ''; msg.textContent = '';
+    const contact = document.getElementById('contact');
+    if (!contact.value.trim()) return showError('Please enter your name.', contact);
+
+    const payload = {
+      _subject: 'New wedding RSVP from ' + contact.value.trim(),
+      'Contact name': contact.value.trim(),
+      _gotcha: form.elements._gotcha.value
+    };
+
+    for (const ev of document.querySelectorAll('.event')) {
+      const choice = ev.querySelector('input[type=radio]:checked');
+      if (!choice) return showError('Please choose attending or not for: ' + ev.dataset.key, ev.querySelector('input[type=radio]'));
+      if (choice.value === 'no') { payload[ev.dataset.key] = 'Not attending'; continue; }
+      const inputs = [...ev.querySelectorAll('.list input')];
+      const blank = inputs.find(i => !i.value.trim());
+      if (blank) return showError('Please enter a name for every guest (or lower the guest count) for: ' + ev.dataset.key, blank);
+      const names = inputs.map(i => i.value.trim());
+      payload[ev.dataset.key] = 'Attending (' + names.length + '): ' + names.join(', ');
+    }
+
+    const btn = document.getElementById('send');
+    btn.disabled = true; btn.textContent = 'Sending...';
+    try {
+      const res = await fetch(FORMSPREE_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) throw new Error('Request failed');
+      document.getElementById('formView').style.display = 'none';
+      document.getElementById('thanks').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (err) {
+      showError('Something went wrong sending your RSVP. Please try again in a moment.');
+      btn.disabled = false; btn.textContent = 'Send our RSVP';
+    }
+  });
+</script>
+</body>
+</html>
