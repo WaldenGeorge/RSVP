@@ -49,6 +49,9 @@
   #msg.err{color:#B3263E}
   #thanks{display:none;text-align:center;padding:40px 0}
   #thanks h2{font-size:56px;margin-bottom:8px}
+  .photo{position:relative;width:420px;max-width:100%;margin:0 auto 24px}
+  .tie{position:absolute;width:72px;height:auto;pointer-events:none}
+  .couple{display:block;width:100%;height:auto;margin:0;border:3px solid var(--ink);border-radius:26px 18px 28px 20px;box-shadow:0 6px 0 var(--ink)}
   @media (prefers-reduced-motion:no-preference){
     .bob{animation:bob 4s ease-in-out infinite}
     @keyframes bob{50%{transform:translateY(-8px) rotate(3deg)}}
@@ -76,13 +79,13 @@
       <label class="field"><span>Your name</span>
         <input type="text" id="contact" required autocomplete="name"></label>
 
-      <section class="event" data-key="Saturday - Bows before Vows: Pre-Wedding Yoga">
+      <section class="event" data-key="Saturday - Namaste Before the Big Day: Pre-Wedding Yoga">
         <svg class="doodle" viewBox="0 0 64 64" fill="none" stroke="#23304A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M32 54C20 54 12 46 10 34c8 0 15 4 22 14 7-10 14-14 22-14-2 12-10 20-22 20z" fill="#F28DA6" fill-opacity=".7"/>
           <path d="M32 50C24 42 24 26 32 12c8 14 8 30 0 38z" fill="#F6C945"/>
         </svg>
         <div class="day">Saturday</div>
-        <h2>Bows before Vows</h2>
+        <h2>Namaste Before the Big Day</h2>
         <div>Pre-Wedding Yoga</div>
       </section>
 
@@ -116,6 +119,17 @@
   <div id="thanks">
     <div class="hero bob" aria-hidden="true">
       <svg width="110" height="110" viewBox="0 0 64 64" fill="none" stroke="#23304A" stroke-width="2.5" stroke-linecap="round"><circle cx="32" cy="32" r="22" fill="#F28DA6" fill-opacity=".8"/><circle cx="32" cy="32" r="7" fill="#EEF4FA"/><path d="M18 24l4 2M44 20l-3 4M46 40l-4-2M22 46l3-4M32 12v4" stroke="#F6C945" stroke-width="3.5"/></svg>
+    </div>
+    <!-- Upload your photo to the repository as couple.jpg (see instructions) -->
+    <div class="photo">
+      <img class="couple" src="couple.jpg" alt="The happy couple" onerror="this.parentNode.style.display='none'">
+      <!-- Floating bow ties: change top / left (percent of the photo) to move them -->
+      <svg class="tie bob" style="top:-6%;left:-6%" viewBox="0 0 120 90" fill="none" stroke="#23304A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M60 45L14 20v50z" fill="#F28DA6"/><path d="M60 45l46-25v50z" fill="#F6C945"/><rect x="50" y="33" width="20" height="24" rx="6" fill="#fff"/>
+      </svg>
+      <svg class="tie bob" style="top:70%;left:82%;animation-delay:-2s" viewBox="0 0 120 90" fill="none" stroke="#23304A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M60 45L14 20v50z" fill="#F6C945"/><path d="M60 45l46-25v50z" fill="#F28DA6"/><rect x="50" y="33" width="20" height="24" rx="6" fill="#fff"/>
+      </svg>
     </div>
     <h2>Thank you!</h2>
     <p>Your RSVP is in. We can't wait to celebrate with you.</p>
@@ -151,7 +165,7 @@
     const addRow = (removable) => {
       const row = document.createElement('div');
       row.className = 'row';
-      row.innerHTML = `<input type="text" placeholder="Guest full name" aria-label="Guest name" autocomplete="off">` +
+      row.innerHTML = `<input type="text" placeholder="${ev.dataset.key.startsWith('Sunday') ? 'Guest full name AND dietary restrictions / allergies' : 'Guest full name'}" aria-label="Guest name" autocomplete="off">` +
         (removable ? `<button type="button" aria-label="Remove guest">×</button>` : '');
       if (removable) row.querySelector('button').onclick = () => { row.remove(); syncCount(); };
       list.appendChild(row);
