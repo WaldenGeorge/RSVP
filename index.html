@@ -25,7 +25,7 @@
   input[type=text],input[type=email]{width:100%;padding:12px 14px;border:2px solid var(--ink);border-radius:14px;background:var(--white);font:inherit;color:inherit}
   input:focus-visible,button:focus-visible,label:focus-within{outline:3px solid var(--pink);outline-offset:2px}
   .event{background:var(--white);border:2px solid var(--ink);border-radius:26px 18px 28px 20px;padding:24px;margin:32px 0;position:relative}
-  .event h2{font-size:32px;margin:6px 0 2px}
+  .event h2{font-size:clamp(19px,5.6vw,32px);white-space:nowrap;margin:6px 0 2px}
   .day{font-family:var(--hand);font-size:22px;color:var(--pink);font-weight:700}
   .event svg.doodle{position:absolute;top:14px;right:16px;width:64px;height:64px}
   .choices{display:flex;gap:10px;margin:16px 0}
@@ -131,8 +131,8 @@
         <path d="M60 45L14 20v50z" fill="#F6C945"/><path d="M60 45l46-25v50z" fill="#F28DA6"/><rect x="50" y="33" width="20" height="24" rx="6" fill="#fff"/>
       </svg>
     </div>
-    <h2>Woo-Hoo!</h2>
-    <p>We can't wait to celebrate with you.</p>
+    <h2>Thank you!</h2>
+    <p>Your RSVP is in. We can't wait to celebrate with you.</p>
   </div>
 </main>
 
@@ -165,7 +165,7 @@
     const addRow = (removable) => {
       const row = document.createElement('div');
       row.className = 'row';
-      row.innerHTML = `<input type="text" placeholder="${ev.dataset.key.startsWith('Sunday') ? 'Guest full name AND dietary restrictions / allergies' : 'Guest full name'}" aria-label="Guest name" autocomplete="off">` +
+      row.innerHTML = `<input type="text" placeholder="${ev.dataset.key.startsWith('Sunday') ? 'Guest full name and dietary needs' : 'Guest full name'}" aria-label="Guest name" autocomplete="off">` +
         (removable ? `<button type="button" aria-label="Remove guest">×</button>` : '');
       if (removable) row.querySelector('button').onclick = () => { row.remove(); syncCount(); };
       list.appendChild(row);
